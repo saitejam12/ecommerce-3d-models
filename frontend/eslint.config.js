@@ -27,6 +27,17 @@ export default tseslint.config(
     // Generated design screens carry `@ts-nocheck`: they are written under the
     // design phase's JS runtime contract, not as hand-written TypeScript.
     files: ["src/screens/**"],
-    rules: { "@typescript-eslint/ban-ts-comment": "off" },
+    rules: {
+      "@typescript-eslint/ban-ts-comment": "off",
+      // The design phase's generated JSX idiom for an optional DOM action is
+      // `ref.current && ref.current.focus()`, a short-circuited expression
+      // statement rather than an assignment or call -- exactly what this rule
+      // flags by default. Hand-written TypeScript elsewhere still gets the
+      // stricter default.
+      "@typescript-eslint/no-unused-expressions": [
+        "warn",
+        { allowShortCircuit: true, allowTernary: true },
+      ],
+    },
   },
 );
