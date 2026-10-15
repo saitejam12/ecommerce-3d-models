@@ -164,7 +164,7 @@ def test_search_matches_name_and_description_and_excludes_unpublished():
         response = client.get("/search", params={"q": "Zarbaxon"})
 
         assert response.status_code == 200
-        slugs = {p["slug"] for p in response.json()["products"]}
+        slugs = {p["slug"] for p in response.json()["results"]}
         assert matched_by_name.slug in slugs
         assert matched_by_description.slug in slugs
         assert unpublished_match.slug not in slugs

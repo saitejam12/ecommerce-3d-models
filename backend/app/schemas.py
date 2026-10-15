@@ -6,7 +6,7 @@ generated route returns until it has been implemented.
 
 import uuid
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class StubResponse(BaseModel):
@@ -27,9 +27,19 @@ class CategoryOut(BaseModel):
     nothing about whether it has products -- that filter already happened
     before this is built."""
 
+    model_config = ConfigDict(from_attributes=True)
+
     id: uuid.UUID
     name: str
     slug: str
+
+
+class CategoryCreate(BaseModel):
+    name: str
+
+
+class CategoryUpdate(BaseModel):
+    name: str
 
 
 class VariantOut(BaseModel):
@@ -63,6 +73,33 @@ class ProductDetail(BaseModel):
     category: CategoryOut
     images: list[str]
     variants: list[VariantOut]
+
+
+class ProductOut(BaseModel):
+    """A product as the admin catalogue views see it."""
+
+    model_config = ConfigDict(from_attributes=True)
+
+    id: uuid.UUID
+    category_id: uuid.UUID
+    name: str
+    slug: str
+    description: str
+    published: bool
+
+
+class ProductCreate(BaseModel):
+    name: str
+    category_id: uuid.UUID
+    description: str | None = None
+    published: bool = False
+
+
+class ProductUpdate(BaseModel):
+    name: str
+    description: str | None = None
+    category_id: uuid.UUID | None = None
+    published: bool | None = None
 
 
 class CategoryProductsOut(BaseModel):
