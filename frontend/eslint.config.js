@@ -25,8 +25,15 @@ export default tseslint.config(
   },
   {
     // Generated design screens carry `@ts-nocheck`: they are written under the
-    // design phase's JS runtime contract, not as hand-written TypeScript.
+    // design phase's JS runtime contract, not as hand-written TypeScript. They
+    // also lean on the `condition && call()` guard idiom throughout, which
+    // `no-unused-expressions` rejects by default -- turned off here rather
+    // than in the file (editing their behaviour is the development sprint's
+    // job, not this scaffold's).
     files: ["src/screens/**"],
-    rules: { "@typescript-eslint/ban-ts-comment": "off" },
+    rules: {
+      "@typescript-eslint/ban-ts-comment": "off",
+      "@typescript-eslint/no-unused-expressions": "off",
+    },
   },
 );

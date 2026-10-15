@@ -1,0 +1,116 @@
+{
+  "architecture_npm": [
+    "@stripe/react-stripe-js",
+    "@stripe/stripe-js",
+    "@tanstack/react-query",
+    "@uiw/react-md-editor"
+  ],
+  "key": {
+    "app_design_id": "e0a41a2f-41c9-425e-94d8-14042a39fe28",
+    "app_design_version": 1,
+    "architecture_document_id": "16393c82-ee89-4259-92a8-40e4edb9131e",
+    "architecture_version": 1
+  },
+  "outcome": "prepared",
+  "packages": [
+    {
+      "ecosystem": "pypi",
+      "installed_version": "16.0.0",
+      "name": "stripe",
+      "status": "installed",
+      "version": ">=10.0"
+    },
+    {
+      "ecosystem": "pypi",
+      "installed_version": "6.12.5",
+      "name": "sendgrid",
+      "status": "installed",
+      "version": ">=6.11"
+    },
+    {
+      "ecosystem": "pypi",
+      "installed_version": "1.43.114",
+      "name": "boto3",
+      "status": "installed",
+      "version": ">=1.34"
+    },
+    {
+      "ecosystem": "pypi",
+      "installed_version": "12.3.0",
+      "name": "Pillow",
+      "status": "installed",
+      "version": ">=10.0"
+    },
+    {
+      "ecosystem": "pypi",
+      "installed_version": "0.0.32",
+      "name": "python-multipart",
+      "status": "installed",
+      "version": ">=0.0.9"
+    },
+    {
+      "ecosystem": "pypi",
+      "installed_version": "1.7.4",
+      "name": "passlib[bcrypt]",
+      "status": "installed",
+      "version": ">=1.7.4"
+    },
+    {
+      "ecosystem": "pypi",
+      "installed_version": "3.5.0",
+      "name": "python-jose[cryptography]",
+      "status": "installed",
+      "version": ">=3.3"
+    },
+    {
+      "ecosystem": "pypi",
+      "installed_version": "5.3.1",
+      "name": "redis",
+      "status": "installed",
+      "version": ">=5.0"
+    },
+    {
+      "ecosystem": "pypi",
+      "installed_version": "0.28.0",
+      "name": "arq",
+      "status": "installed",
+      "version": ">=0.26"
+    },
+    {
+      "ecosystem": "npm",
+      "error": "already provided by the scaffold",
+      "name": "react-router-dom",
+      "status": "skipped",
+      "version": ">=6.26"
+    },
+    {
+      "ecosystem": "npm",
+      "installed_version": "7.0.0",
+      "name": "@stripe/react-stripe-js",
+      "status": "installed",
+      "version": ">=2.8"
+    },
+    {
+      "ecosystem": "npm",
+      "installed_version": "10.1.0",
+      "name": "@stripe/stripe-js",
+      "status": "installed",
+      "version": ">=4.0"
+    },
+    {
+      "ecosystem": "npm",
+      "installed_version": "5.104.3",
+      "name": "@tanstack/react-query",
+      "status": "installed",
+      "version": ">=5.0"
+    },
+    {
+      "ecosystem": "npm",
+      "installed_version": "4.1.2",
+      "name": "@uiw/react-md-editor",
+      "status": "installed",
+      "version": ""
+    }
+  ],
+  "prepared_by_run": "19321fb3-f8f0-4587-ac60-250c1fea1902"
+}
