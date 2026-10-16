@@ -95,7 +95,9 @@ def test_postage_options_saved_via_put_are_offered_by_quote(admin_token: str) ->
 def test_price_change_or_deactivation_affects_only_new_quotes(admin_token: str) -> None:
     put = _put_settings(
         admin_token,
-        postage_options=[{"name": "Standard Post", "description": "", "price": 500, "active": True}],
+        postage_options=[
+            {"name": "Standard Post", "description": "", "price": 500, "active": True}
+        ],
         tax_rate_bp=0,
     )
     option_id = put.json()["postage_options"][0]["id"]
@@ -109,7 +111,13 @@ def test_price_change_or_deactivation_affects_only_new_quotes(admin_token: str) 
     put2 = _put_settings(
         admin_token,
         postage_options=[
-            {"id": option_id, "name": "Standard Post", "description": "", "price": 900, "active": True}
+            {
+                "id": option_id,
+                "name": "Standard Post",
+                "description": "",
+                "price": 900,
+                "active": True,
+            }
         ],
         tax_rate_bp=0,
     )
@@ -126,7 +134,13 @@ def test_price_change_or_deactivation_affects_only_new_quotes(admin_token: str) 
     put3 = _put_settings(
         admin_token,
         postage_options=[
-            {"id": option_id, "name": "Standard Post", "description": "", "price": 900, "active": False},
+            {
+                "id": option_id,
+                "name": "Standard Post",
+                "description": "",
+                "price": 900,
+                "active": False,
+            },
             {"name": "Backup Post", "description": "", "price": 1200, "active": True},
         ],
         tax_rate_bp=0,
@@ -142,7 +156,9 @@ def test_price_change_or_deactivation_affects_only_new_quotes(admin_token: str) 
     assert quote_backup.json()["postage"] == 1200
 
 
-def test_no_active_postage_option_blocks_quote_and_warns_in_admin_settings(admin_token: str) -> None:
+def test_no_active_postage_option_blocks_quote_and_warns_in_admin_settings(
+    admin_token: str,
+) -> None:
     put = _put_settings(admin_token, postage_options=[], tax_rate_bp=0)
     assert put.status_code == 200
     assert put.json()["warnings"]["no_active_postage_option"] is True
@@ -266,7 +282,9 @@ def test_settings_payload_accepts_exactly_one_tax_rate_and_rejects_per_region_ru
         "/admin/settings",
         headers=_auth(admin_token),
         json={
-            "postage_options": [{"name": "Standard", "description": "", "price": 0, "active": True}],
+            "postage_options": [
+                {"name": "Standard", "description": "", "price": 0, "active": True}
+            ],
             "free_postage_enabled": False,
             "free_postage_threshold": None,
             "tax_rate_bp": 1750,
