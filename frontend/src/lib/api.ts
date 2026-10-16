@@ -68,6 +68,15 @@ export function useAdminAuth(): boolean {
   return useSyncExternalStore(subscribeAdminAuth, getAdminAuthSnapshot, () => false);
 }
 
+export class ApiError extends Error {
+  status: number;
+  constructor(message: string, status: number) {
+    super(message);
+    this.name = "ApiError";
+    this.status = status;
+  }
+}
+
 export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
   const isAdminPath = path.startsWith("/admin");
   const staffToken = isAdminPath ? getStaffToken() : null;
@@ -86,7 +95,10 @@ export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> 
     if (isAdminPath && response.status === 403) {
       clearStaffToken();
     }
-    throw new Error(`${init?.method ?? "GET"} ${path} failed: ${response.status}`);
+    throw new ApiError(
+      `${init?.method ?? "GET"} ${path} failed: ${response.status}`,
+      response.status,
+    );
   }
   return response.status === 204 ? (undefined as T) : ((await response.json()) as T);
 }
@@ -107,4 +119,52 @@ export async function adminLogin(email: string, password: string): Promise<Admin
 
 export function adminLogout(): void {
   clearStaffToken();
+}
+
+// --- Storefront catalogue seam (US-001) -------------------------------------
+//
+// Plain, unauthenticated reads against the published catalogue. These calls
+// never attach a staff token -- `apiFetch` only does that for `/admin/*`
+// paths, which these are not -- so a customer session never carries admin
+// rights, and the storefront never asks a visitor to sign in to browse.
+
+export interface Category {
+  id: string;
+  slug: string;
+  name: string;
+}
+
+export interface ProductCategoryRef {
+  slug: string;
+  name: string;
+}
+
+export interface ProductSummary {
+  id: string;
+  slug: string;
+  name: string;
+  description: string;
+  price: number;
+  category: ProductCategoryRef;
+}
+
+export interface ProductDetail extends ProductSummary {
+  images: string[];
+}
+
+export async function getCategories(): Promise<Category[]> {
+  return apiFetch<Category[]>("/categories");
+}
+
+export async function getCategoryProducts(categorySlug: string): Promise<ProductSummary[]> {
+  return apiFetch<ProductSummary[]>(`/categories/${encodeURIComponent(categorySlug)}/products`);
+}
+
+export async function getProduct(slug: string): Promise<ProductDetail> {
+  return apiFetch<ProductDetail>(`/products/${encodeURIComponent(slug)}`);
+}
+
+export async function searchProducts(query: string): Promise<ProductSummary[]> {
+  const params = new URLSearchParams({ q: query });
+  return apiFetch<ProductSummary[]>(`/search?${params.toString()}`);
 }
