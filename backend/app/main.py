@@ -1,9 +1,10 @@
 """Application entrypoint.
 
-Generated from the approved architecture: one router per component that owns
-endpoints, one route per endpoint the API spec declares. Every generated route
-is a stub that returns a typed placeholder, so the service starts, serves its
-OpenAPI document and passes its tests before a single handler is implemented.
+Generated from the approved architecture: one router per group of endpoints
+the API spec declares (see `app.routers`), one route per endpoint. Every
+generated route is a stub that returns a typed placeholder, so the service
+starts, serves its OpenAPI document and passes its tests before a single
+handler is implemented.
 """
 
 import os
@@ -13,6 +14,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app import models  # noqa: F401 -- imported so the tables register before create_all
 from app.database import Base, engine
+from app.routers import accounts, admin, cart, catalogue, checkout, orders
 from app.services import configured_services
 
 app = FastAPI(
@@ -38,6 +40,13 @@ app.add_middleware(
 # The scaffold ships no migrations, so the tables are created from the models on
 # startup. Replace this with Alembic before anything holds data worth keeping.
 Base.metadata.create_all(bind=engine)
+
+app.include_router(catalogue.router)
+app.include_router(cart.router)
+app.include_router(checkout.router)
+app.include_router(orders.router)
+app.include_router(accounts.router)
+app.include_router(admin.router)
 
 
 @app.get("/health")

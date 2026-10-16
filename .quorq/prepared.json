@@ -1,0 +1,116 @@
+{
+  "architecture_npm": [
+    "@stripe/react-stripe-js",
+    "@stripe/stripe-js",
+    "@tanstack/react-query",
+    "@uiw/react-md-editor"
+  ],
+  "key": {
+    "app_design_id": "e0a41a2f-41c9-425e-94d8-14042a39fe28",
+    "app_design_version": 1,
+    "architecture_document_id": "16393c82-ee89-4259-92a8-40e4edb9131e",
+    "architecture_version": 1
+  },
+  "outcome": "prepared",
+  "packages": [
+    {
+      "ecosystem": "pypi",
+      "error": "                 ^^^^^^^^^^^^^^^^^^^^\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 622, in stream\n    data = self.read(amt=amt, decode_content=decode_content)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 560, in read\n    with self._error_catcher():\n         ^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/contextlib.py\", line 158, in __exit__\n    self.gen.throw(value)\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 443, in _error_catcher\n    raise ReadTimeoutError(self._pool, None, \"Read timed out.\")\npip._vendor.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='files.pythonhosted.org', port=443): Read timed out.",
+      "name": "stripe",
+      "status": "failed",
+      "version": ">=10.0"
+    },
+    {
+      "ecosystem": "pypi",
+      "error": "                 ^^^^^^^^^^^^^^^^^^^^\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 622, in stream\n    data = self.read(amt=amt, decode_content=decode_content)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 560, in read\n    with self._error_catcher():\n         ^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/contextlib.py\", line 158, in __exit__\n    self.gen.throw(value)\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 443, in _error_catcher\n    raise ReadTimeoutError(self._pool, None, \"Read timed out.\")\npip._vendor.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='files.pythonhosted.org', port=443): Read timed out.",
+      "name": "sendgrid",
+      "status": "failed",
+      "version": ">=6.11"
+    },
+    {
+      "ecosystem": "pypi",
+      "error": "                 ^^^^^^^^^^^^^^^^^^^^\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 622, in stream\n    data = self.read(amt=amt, decode_content=decode_content)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 560, in read\n    with self._error_catcher():\n         ^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/contextlib.py\", line 158, in __exit__\n    self.gen.throw(value)\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 443, in _error_catcher\n    raise ReadTimeoutError(self._pool, None, \"Read timed out.\")\npip._vendor.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='files.pythonhosted.org', port=443): Read timed out.",
+      "name": "boto3",
+      "status": "failed",
+      "version": ">=1.34"
+    },
+    {
+      "ecosystem": "pypi",
+      "error": "                 ^^^^^^^^^^^^^^^^^^^^\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 622, in stream\n    data = self.read(amt=amt, decode_content=decode_content)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 560, in read\n    with self._error_catcher():\n         ^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/contextlib.py\", line 158, in __exit__\n    self.gen.throw(value)\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 443, in _error_catcher\n    raise ReadTimeoutError(self._pool, None, \"Read timed out.\")\npip._vendor.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='files.pythonhosted.org', port=443): Read timed out.",
+      "name": "Pillow",
+      "status": "failed",
+      "version": ">=10.0"
+    },
+    {
+      "ecosystem": "pypi",
+      "error": "                 ^^^^^^^^^^^^^^^^^^^^\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 622, in stream\n    data = self.read(amt=amt, decode_content=decode_content)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 560, in read\n    with self._error_catcher():\n         ^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/contextlib.py\", line 158, in __exit__\n    self.gen.throw(value)\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 443, in _error_catcher\n    raise ReadTimeoutError(self._pool, None, \"Read timed out.\")\npip._vendor.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='files.pythonhosted.org', port=443): Read timed out.",
+      "name": "python-multipart",
+      "status": "failed",
+      "version": ">=0.0.9"
+    },
+    {
+      "ecosystem": "pypi",
+      "error": "                 ^^^^^^^^^^^^^^^^^^^^\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 622, in stream\n    data = self.read(amt=amt, decode_content=decode_content)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 560, in read\n    with self._error_catcher():\n         ^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/contextlib.py\", line 158, in __exit__\n    self.gen.throw(value)\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 443, in _error_catcher\n    raise ReadTimeoutError(self._pool, None, \"Read timed out.\")\npip._vendor.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='files.pythonhosted.org', port=443): Read timed out.",
+      "name": "passlib[bcrypt]",
+      "status": "failed",
+      "version": ">=1.7.4"
+    },
+    {
+      "ecosystem": "pypi",
+      "error": "                 ^^^^^^^^^^^^^^^^^^^^\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 622, in stream\n    data = self.read(amt=amt, decode_content=decode_content)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 560, in read\n    with self._error_catcher():\n         ^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/contextlib.py\", line 158, in __exit__\n    self.gen.throw(value)\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 443, in _error_catcher\n    raise ReadTimeoutError(self._pool, None, \"Read timed out.\")\npip._vendor.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='files.pythonhosted.org', port=443): Read timed out.",
+      "name": "python-jose[cryptography]",
+      "status": "failed",
+      "version": ">=3.3"
+    },
+    {
+      "ecosystem": "pypi",
+      "error": "                 ^^^^^^^^^^^^^^^^^^^^\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 622, in stream\n    data = self.read(amt=amt, decode_content=decode_content)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 560, in read\n    with self._error_catcher():\n         ^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/contextlib.py\", line 158, in __exit__\n    self.gen.throw(value)\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 443, in _error_catcher\n    raise ReadTimeoutError(self._pool, None, \"Read timed out.\")\npip._vendor.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='files.pythonhosted.org', port=443): Read timed out.",
+      "name": "redis",
+      "status": "failed",
+      "version": ">=5.0"
+    },
+    {
+      "ecosystem": "pypi",
+      "error": "                 ^^^^^^^^^^^^^^^^^^^^\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 622, in stream\n    data = self.read(amt=amt, decode_content=decode_content)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 560, in read\n    with self._error_catcher():\n         ^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/contextlib.py\", line 158, in __exit__\n    self.gen.throw(value)\n  File \"/work/backend/.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/response.py\", line 443, in _error_catcher\n    raise ReadTimeoutError(self._pool, None, \"Read timed out.\")\npip._vendor.urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='files.pythonhosted.org', port=443): Read timed out.",
+      "name": "arq",
+      "status": "failed",
+      "version": ">=0.26"
+    },
+    {
+      "ecosystem": "npm",
+      "error": "already provided by the scaffold",
+      "name": "react-router-dom",
+      "status": "skipped",
+      "version": ">=6.26"
+    },
+    {
+      "ecosystem": "npm",
+      "installed_version": "7.0.0",
+      "name": "@stripe/react-stripe-js",
+      "status": "installed",
+      "version": ">=2.8"
+    },
+    {
+      "ecosystem": "npm",
+      "installed_version": "10.1.0",
+      "name": "@stripe/stripe-js",
+      "status": "installed",
+      "version": ">=4.0"
+    },
+    {
+      "ecosystem": "npm",
+      "installed_version": "5.104.3",
+      "name": "@tanstack/react-query",
+      "status": "installed",
+      "version": ">=5.0"
+    },
+    {
+      "ecosystem": "npm",
+      "installed_version": "4.1.2",
+      "name": "@uiw/react-md-editor",
+      "status": "installed",
+      "version": ""
+    }
+  ],
+  "prepared_by_run": "64cef571-8f15-4c13-94bf-b5c0fbf4545d"
+}
