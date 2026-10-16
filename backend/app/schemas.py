@@ -18,3 +18,25 @@ class StubResponse(BaseModel):
     endpoint: str
     status: str = "not_implemented"
     detail: str = "Scaffolded from the approved API spec; no behaviour yet."
+
+
+class StaffLoginRequest(BaseModel):
+    """Body of POST /admin/auth/login."""
+
+    email: str
+    password: str
+
+
+class StaffOut(BaseModel):
+    """The staff record returned alongside a token."""
+
+    id: str
+    email: str
+
+
+class StaffLoginResponse(BaseModel):
+    """Response of POST /admin/auth/login per the agreed contract."""
+
+    access_token: str
+    token_type: str = "bearer"
+    staff: StaffOut
