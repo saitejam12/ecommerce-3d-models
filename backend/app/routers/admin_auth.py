@@ -21,7 +21,8 @@ _bearer_scheme = HTTPBearer(auto_error=False)
 
 @router.post("/login", response_model=StaffLoginResponse)
 def login(
-    payload: StaffLoginRequest, db: Session = Depends(get_db)  # noqa: B008
+    payload: StaffLoginRequest,
+    db: Session = Depends(get_db),  # noqa: B008
 ) -> StaffLoginResponse:
     staff = db.query(models.StaffUser).filter(models.StaffUser.email == payload.email).first()
     if (

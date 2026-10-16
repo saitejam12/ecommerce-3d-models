@@ -1,6 +1,13 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { STAFF_TOKEN_KEY, adminLogin, adminLogout, apiFetch, getStaffToken, isAdminAuthenticated } from "@/lib/api";
+import {
+  STAFF_TOKEN_KEY,
+  adminLogin,
+  adminLogout,
+  apiFetch,
+  getStaffToken,
+  isAdminAuthenticated,
+} from "@/lib/api";
 
 describe("staff auth seam", () => {
   beforeEach(() => {

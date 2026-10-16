@@ -82,9 +82,7 @@ def require_staff(
     payload = decode_token(credentials.credentials)
 
     if payload.get("role") != STAFF_ROLE:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN, detail="Staff access required"
-        )
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Staff access required")
 
     jti = payload.get("jti")
     session = (

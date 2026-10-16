@@ -27,9 +27,7 @@ def _make_staff(email: str | None = None):
 def test_login_with_correct_credentials_returns_staff_token() -> None:
     _, email = _make_staff()
 
-    response = client.post(
-        "/admin/auth/login", json={"email": email, "password": STAFF_PASSWORD}
-    )
+    response = client.post("/admin/auth/login", json={"email": email, "password": STAFF_PASSWORD})
 
     assert response.status_code == 200
     body = response.json()
@@ -73,9 +71,7 @@ def test_admin_route_with_garbage_token_is_rejected() -> None:
 
 def test_admin_route_with_valid_staff_token_is_allowed() -> None:
     _, email = _make_staff()
-    login = client.post(
-        "/admin/auth/login", json={"email": email, "password": STAFF_PASSWORD}
-    )
+    login = client.post("/admin/auth/login", json={"email": email, "password": STAFF_PASSWORD})
     token = login.json()["access_token"]
 
     response = client.get("/admin/ping", headers={"Authorization": f"Bearer {token}"})
@@ -99,9 +95,7 @@ def test_customer_token_is_rejected_by_admin_route_with_403() -> None:
 
 def test_sign_out_invalidates_the_staff_session() -> None:
     _, email = _make_staff()
-    login = client.post(
-        "/admin/auth/login", json={"email": email, "password": STAFF_PASSWORD}
-    )
+    login = client.post("/admin/auth/login", json={"email": email, "password": STAFF_PASSWORD})
     token = login.json()["access_token"]
 
     ok = client.get("/admin/ping", headers={"Authorization": f"Bearer {token}"})

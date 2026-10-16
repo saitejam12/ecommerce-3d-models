@@ -44,9 +44,7 @@ describe("AdminLogin", () => {
 
   it("shows an error message when sign-in fails", async () => {
     const user = userEvent.setup();
-    vi.spyOn(api, "adminLogin").mockRejectedValue(
-      new Error("POST /admin/auth/login failed: 401"),
-    );
+    vi.spyOn(api, "adminLogin").mockRejectedValue(new Error("POST /admin/auth/login failed: 401"));
     renderScreen();
     await user.type(screen.getByLabelText(/email/i), "owner@shop.test");
     await user.type(screen.getByLabelText(/password/i), "wrong");
