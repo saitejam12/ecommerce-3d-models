@@ -25,8 +25,14 @@ export default tseslint.config(
   },
   {
     // Generated design screens carry `@ts-nocheck`: they are written under the
-    // design phase's JS runtime contract, not as hand-written TypeScript.
+    // design phase's JS runtime contract, not as hand-written TypeScript. The
+    // same JS idioms that `@ts-nocheck` covers (short-circuit `a && a.b()` calls,
+    // unused catch bindings) trip lint rules meant for hand-written TS, so the
+    // rules that police those idioms are turned off for this subtree only.
     files: ["src/screens/**"],
-    rules: { "@typescript-eslint/ban-ts-comment": "off" },
+    rules: {
+      "@typescript-eslint/ban-ts-comment": "off",
+      "@typescript-eslint/no-unused-expressions": "off",
+    },
   },
 );
