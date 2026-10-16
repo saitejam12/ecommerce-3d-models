@@ -42,12 +42,19 @@ export default function Product() {
     );
   }
 
-  const isNotFound = productQuery.isError && productQuery.error instanceof ApiError && productQuery.error.status === 404;
+  const isNotFound =
+    productQuery.isError &&
+    productQuery.error instanceof ApiError &&
+    productQuery.error.status === 404;
 
   if (isNotFound) {
     return (
       <div className="mx-auto max-w-xl px-4 py-16 text-center">
-        <Icons.AlertCircle className="mx-auto h-7 w-7" style={{ color: brand.primaryColor }} aria-hidden="true" />
+        <Icons.AlertCircle
+          className="mx-auto h-7 w-7"
+          style={{ color: brand.primaryColor }}
+          aria-hidden="true"
+        />
         <h1 className="mt-3 text-2xl font-bold">We couldn't find that one</h1>
         <p className="mt-2 text-sm" style={{ color: brand.neutralColor }}>
           This product isn't available any more — it may have been taken off the shelf.
@@ -76,7 +83,10 @@ export default function Product() {
   const product = productQuery.data!;
 
   return (
-    <div className="mx-auto w-full max-w-4xl px-4 pb-20 pt-6 sm:px-6" style={{ fontFamily: brand.fontBody }}>
+    <div
+      className="mx-auto w-full max-w-4xl px-4 pb-20 pt-6 sm:px-6"
+      style={{ fontFamily: brand.fontBody }}
+    >
       <button
         type="button"
         onClick={() => navigate(`/catalogue?category=${encodeURIComponent(product.category.slug)}`)}
@@ -91,14 +101,20 @@ export default function Product() {
         <Badge>
           <span style={{ color: brand.primaryColor }}>{product.category.name}</span>
         </Badge>
-        <h1 className="mt-3 text-3xl font-bold tracking-tight" style={{ fontFamily: brand.fontHeading }}>
+        <h1
+          className="mt-3 text-3xl font-bold tracking-tight"
+          style={{ fontFamily: brand.fontHeading }}
+        >
           {product.name}
         </h1>
         <p className="mt-4 text-2xl font-bold" style={{ color: brand.primaryColor }}>
           {money(product.price)}
         </p>
         <Separator className="my-6" />
-        <p className="max-w-prose text-[15px] leading-relaxed" style={{ color: brand.neutralColor }}>
+        <p
+          className="max-w-prose text-[15px] leading-relaxed"
+          style={{ color: brand.neutralColor }}
+        >
           {product.description}
         </p>
       </div>
