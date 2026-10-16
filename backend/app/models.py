@@ -7,12 +7,17 @@ marks it revoked so a reused token no longer satisfies `require_staff`.
 Category and Product back the product catalogue (US-001): Category is the
 minimal shape products reference here; its admin write routes belong to
 US-001-2.
+
+PostageOption and ShopSettings back shop settings (US-033): flat-rate postage
+options, an optional free-postage threshold and the single domestic
+sales-tax rate used by the checkout quote. All money is stored as integer
+minor units (e.g. pence), never as floats.
 """
 
 import uuid
 from datetime import UTC, datetime
 
-from sqlalchemy import Boolean, DateTime, ForeignKey, String, Text
+from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
@@ -84,4 +89,46 @@ class Product(Base):
     category: Mapped["Category | None"] = relationship(back_populates="products")
 
 
-__all__ = ["Base", "StaffUser", "StaffSession", "Category", "Product"]
+class PostageOption(Base):
+    """A flat-rate postage option offered at checkout.
+
+    `price_minor` is the flat price in integer minor units; it is read fresh
+    at quote time, never copied onto a stored order until order creation
+    (a later ticket) snapshots the quoted postage amount/label verbatim, so
+    a price change or deactivation here only ever affects quotes made
+    afterwards (AC-114).
+    """
+
+    __tablename__ = "postage_options"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: uuid.uuid4().hex)
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    description: Mapped[str] = mapped_column(String(500), nullable=False, default="")
+    price_minor: Mapped[int] = mapped_column(Integer, nullable=False)
+    active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(UTC))
+
+
+class ShopSettings(Base):
+    """Singleton row (id="singleton") holding the free-postage threshold and
+    the single shop-wide domestic sales-tax rate. No per-region rules and no
+    external tax engine: exactly one rate, stored as integer basis points
+    (e.g. 2000 == 20.00%) so quote math never touches a float."""
+
+    __tablename__ = "shop_settings"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default="singleton")
+    free_postage_enabled: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    free_postage_threshold_minor: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    tax_rate_bp: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+
+
+__all__ = [
+    "Base",
+    "StaffUser",
+    "StaffSession",
+    "Category",
+    "Product",
+    "PostageOption",
+    "ShopSettings",
+]

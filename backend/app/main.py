@@ -14,7 +14,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app import models  # noqa: F401 -- imported so the tables register before create_all
 from app.bootstrap import ensure_bootstrap_staff
 from app.database import Base, SessionLocal, engine
-from app.routers import admin, admin_auth, products
+from app.routers import admin, admin_auth, checkout, products, settings
 from app.services import configured_services
 
 app = FastAPI(
@@ -43,6 +43,8 @@ Base.metadata.create_all(bind=engine)
 
 app.include_router(admin_auth.router)
 app.include_router(admin.router)
+app.include_router(settings.router)
+app.include_router(checkout.router)
 app.include_router(products.admin_router)
 app.include_router(products.public_router)
 

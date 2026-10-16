@@ -83,3 +83,88 @@ class ProductOut(BaseModel):
     description: str | None
     published: bool
     category: CategoryOut | None = None
+
+
+# --- shop settings (US-033): postage options, free-postage threshold, tax ----
+
+
+class PostageOptionIn(BaseModel):
+    """One postage option inside the PUT /admin/settings body. `id` present
+    updates an existing option in place; absent, it creates a new one. Any
+    existing option not named in the payload is removed (the PUT body is the
+    full set of postage options)."""
+
+    id: str | None = None
+    name: str = Field(min_length=1)
+    description: str = ""
+    price: int = Field(ge=0, description="Flat postage price, integer minor units.")
+    active: bool = True
+
+
+class PostageOptionOut(BaseModel):
+    """A postage option as returned by GET/PUT /admin/settings."""
+
+    id: str
+    name: str
+    description: str
+    price: int
+    active: bool
+
+
+class ShopSettingsIn(BaseModel):
+    """Body of PUT /admin/settings."""
+
+    postage_options: list[PostageOptionIn] = Field(default_factory=list)
+    free_postage_enabled: bool = False
+    free_postage_threshold: int | None = Field(
+        default=None, ge=0, description="Minor units; required spend for free postage."
+    )
+    tax_rate_bp: int = Field(
+        default=0, ge=0, le=10000, description="Single domestic sales-tax rate, basis points."
+    )
+
+
+class ShopSettingsWarnings(BaseModel):
+    no_active_postage_option: bool
+
+
+class ShopSettingsOut(BaseModel):
+    """Response of GET/PUT /admin/settings."""
+
+    postage_options: list[PostageOptionOut]
+    free_postage_enabled: bool
+    free_postage_threshold: int | None
+    tax_rate_bp: int
+    warnings: ShopSettingsWarnings
+
+
+class CheckoutQuoteRequest(BaseModel):
+    """Body of POST /checkout/quote. Pricing of individual products belongs
+    to another ticket, so the quote takes the goods subtotal directly."""
+
+    goods_subtotal: int = Field(ge=0, description="Goods subtotal, integer minor units.")
+    postage_option_id: str
+
+
+class QuotePostageOptionOut(BaseModel):
+    """One active postage option as offered in a quote, with its flat price
+    and the price it would actually be charged on this quote (zero when free
+    postage applies)."""
+
+    id: str
+    name: str
+    description: str
+    price: int
+    effective_price: int
+    is_free: bool
+
+
+class CheckoutQuoteResponse(BaseModel):
+    """Response of POST /checkout/quote per the agreed contract."""
+
+    goods_subtotal: int
+    postage_options: list[QuotePostageOptionOut]
+    postage: int
+    postage_label: str
+    tax: int
+    total: int
