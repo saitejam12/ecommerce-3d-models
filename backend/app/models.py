@@ -1,10 +1,134 @@
 """SQLAlchemy models.
 
-The approved architecture declared no data model, so there are no tables
-yet. Add them here: `Base` is already bound to the engine and `main.py`
-imports this module before it creates the schema.
+StaffUser and StaffSession back the staff authentication flow (US-024):
+logging in creates a session row keyed by the token's `jti`, and signing out
+marks it revoked so a reused token no longer satisfies `require_staff`.
+
+Category and Product back the product catalogue (US-001): Category is the
+minimal shape products reference here; its admin write routes belong to
+US-001-2.
+
+PostageOption and ShopSettings back shop settings (US-033): flat-rate postage
+options, an optional free-postage threshold and the single domestic
+sales-tax rate used by the checkout quote. All money is stored as integer
+minor units (e.g. pence), never as floats.
 """
+
+import uuid
+from datetime import UTC, datetime
+
+from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, String, Text
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
 
-__all__ = ["Base"]
+
+class StaffUser(Base):
+    """A staff/admin account, distinct from customer accounts."""
+
+    __tablename__ = "staff_users"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: uuid.uuid4().hex)
+    email: Mapped[str] = mapped_column(String(255), unique=True, index=True, nullable=False)
+    hashed_password: Mapped[str] = mapped_column(String(255), nullable=False)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(UTC))
+
+    sessions: Mapped[list["StaffSession"]] = relationship(
+        back_populates="staff", cascade="all, delete-orphan"
+    )
+
+
+class StaffSession(Base):
+    """One row per issued staff token, so sign-out can revoke it server-side."""
+
+    __tablename__ = "staff_sessions"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: uuid.uuid4().hex)
+    staff_id: Mapped[str] = mapped_column(String(36), ForeignKey("staff_users.id"), nullable=False)
+    jti: Mapped[str] = mapped_column(String(64), unique=True, index=True, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(UTC))
+    revoked_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+
+    staff: Mapped["StaffUser"] = relationship(back_populates="sessions")
+
+
+class Category(Base):
+    """A product category. Admin write routes for this belong to US-001-2;
+    this packet only needs the shape so Product can reference it and the
+    public `/categories/{slug}/products` route can resolve by slug."""
+
+    __tablename__ = "categories"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: uuid.uuid4().hex)
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    slug: Mapped[str] = mapped_column(String(255), unique=True, index=True, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(UTC))
+
+    products: Mapped[list["Product"]] = relationship(back_populates="category")
+
+
+class Product(Base):
+    """A sellable product. `published` gates every public-facing read."""
+
+    __tablename__ = "products"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: uuid.uuid4().hex)
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    slug: Mapped[str] = mapped_column(String(255), unique=True, index=True, nullable=False)
+    description: Mapped[str | None] = mapped_column(Text, nullable=True)
+    category_id: Mapped[str | None] = mapped_column(
+        String(36), ForeignKey("categories.id"), nullable=True
+    )
+    published: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(UTC))
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime, default=lambda: datetime.now(UTC), onupdate=lambda: datetime.now(UTC)
+    )
+
+    category: Mapped["Category | None"] = relationship(back_populates="products")
+
+
+class PostageOption(Base):
+    """A flat-rate postage option offered at checkout.
+
+    `price_minor` is the flat price in integer minor units; it is read fresh
+    at quote time, never copied onto a stored order until order creation
+    (a later ticket) snapshots the quoted postage amount/label verbatim, so
+    a price change or deactivation here only ever affects quotes made
+    afterwards (AC-114).
+    """
+
+    __tablename__ = "postage_options"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: uuid.uuid4().hex)
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    description: Mapped[str] = mapped_column(String(500), nullable=False, default="")
+    price_minor: Mapped[int] = mapped_column(Integer, nullable=False)
+    active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(UTC))
+
+
+class ShopSettings(Base):
+    """Singleton row (id="singleton") holding the free-postage threshold and
+    the single shop-wide domestic sales-tax rate. No per-region rules and no
+    external tax engine: exactly one rate, stored as integer basis points
+    (e.g. 2000 == 20.00%) so quote math never touches a float."""
+
+    __tablename__ = "shop_settings"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default="singleton")
+    free_postage_enabled: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    free_postage_threshold_minor: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    tax_rate_bp: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+
+
+__all__ = [
+    "Base",
+    "StaffUser",
+    "StaffSession",
+    "Category",
+    "Product",
+    "PostageOption",
+    "ShopSettings",
+]

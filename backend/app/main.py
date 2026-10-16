@@ -12,7 +12,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app import models  # noqa: F401 -- imported so the tables register before create_all
-from app.database import Base, engine
+from app.bootstrap import ensure_bootstrap_staff
+from app.database import Base, SessionLocal, engine
+from app.routers import admin, admin_auth, checkout, products, settings
 from app.services import configured_services
 
 app = FastAPI(
@@ -38,6 +40,24 @@ app.add_middleware(
 # The scaffold ships no migrations, so the tables are created from the models on
 # startup. Replace this with Alembic before anything holds data worth keeping.
 Base.metadata.create_all(bind=engine)
+
+app.include_router(admin_auth.router)
+app.include_router(admin.router)
+app.include_router(settings.router)
+app.include_router(checkout.router)
+app.include_router(products.admin_router)
+app.include_router(products.public_router)
+
+
+@app.on_event("startup")
+def _bootstrap_staff() -> None:
+    """Creates the first staff account from env vars, if configured. A no-op
+    otherwise, so a fresh clone without STAFF_BOOTSTRAP_* still starts."""
+    db = SessionLocal()
+    try:
+        ensure_bootstrap_staff(db)
+    finally:
+        db.close()
 
 
 @app.get("/health")
